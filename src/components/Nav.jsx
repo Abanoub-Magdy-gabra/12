@@ -1,8 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import { usePathname } from 'next/navigation';
+import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -19,7 +17,8 @@ const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [mounted, setMounted] = useState(false);
-  const pathname = usePathname();
+  const location = useLocation();
+  const pathname = location.pathname;
 
   // Set mounted state to true after component mounts to avoid hydration mismatch
   useEffect(() => {
@@ -93,40 +92,51 @@ const Navigation = () => {
     }
   };
 
+  // Keyboard navigation
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' && isOpen) {
+        setIsOpen(false);
+      }
+    };
+    
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen]);
+
   // Only render dynamic content after mounting to prevent hydration mismatch
   if (!mounted) {
     return (
       <nav className="fixed top-0 left-0 w-full px-[5%] flex items-center justify-between z-[1000] bg-white/95 h-[10vh]">
         <div className="w-8 h-8"></div>
         <div className="h-[100px] flex items-center justify-center">
-          <Link href="/" className="transition-all duration-300 transform hover:scale-105">
+          <a href="/" className="transition-all duration-300 transform hover:scale-105">
             <div className="relative w-[160px] h-[62px] lg:w-[220px] lg:h-[85px]">
-              <Image 
+              <img 
                 src="/images/Frozengate-01.svg"
                 alt="Frozengate Logo" 
-                fill
-                priority
-                sizes="(max-width: 768px) 160px, 220px"
-                className="object-contain drop-shadow-sm"
+                className="w-full h-full object-contain drop-shadow-sm"
                 style={{ 
                   maxWidth: '100%'
                 }}
               />
             </div>
-          </Link>
+          </a>
         </div>
         <ul className="hidden lg:flex flex-row gap-8 ml-auto">
           {[
             { path: '/', label: 'Home' },
             { path: '/about', label: 'About' },
-            { path: '/ProductsPage', label: 'Products' },
-            { path: '/Agronomy', label: 'Agronomy' },
-            { path: '/Quality', label: 'Quality' },
-            { path: '/Process', label: 'Process' },
-            { path: '/Contact', label: 'Contact us' }
+            { path: '/products', label: 'Products' },
+            { path: '/agronomy', label: 'Agronomy' },
+            { path: '/quality', label: 'Quality' },
+            { path: '/process', label: 'Process' },
+            { path: '/contact', label: 'Contact us' }
           ].map((item, index) => (
             <li key={index} className="text-left">
-              <Link 
+              <a 
                 href={item.path} 
                 className={`font-montserrat relative inline-block group transition-colors duration-300 px-3 py-2
                   ${pathname === item.path 
@@ -141,7 +151,7 @@ const Navigation = () => {
                   ${pathname === item.path ? 'scale-x-100' : 'scale-x-0'} 
                   transition-transform duration-500 ease-in-out`}>
                 </span>
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
@@ -183,7 +193,7 @@ const Navigation = () => {
         ${scrolled ? 'h-[70px]' : 'h-[110px]'}
         absolute left-1/2 transform -translate-x-1/2 lg:static lg:translate-x-0
       `}>
-        <Link href="/" className="relative group">
+        <a href="/" className="relative group">
           <motion.div
             className="absolute inset-0 bg-primary/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"
             initial={false}
@@ -204,17 +214,13 @@ const Navigation = () => {
               filter: "drop-shadow(0px 4px 6px rgba(95, 180, 70, 0.25))"
             }}
       >
-            <Image 
+            <img 
             src="/images/Frozengate-01.svg"
             alt="Frozengate Logo" 
-              fill
-              priority
-              sizes="(max-width: 768px) 160px, 220px"
-              className="object-contain drop-shadow-md relative z-10"
-              quality={90}
+              className="w-full h-full object-contain drop-shadow-md relative z-10"
           />
           </motion.div>
-        </Link>
+        </a>
       </div>
 
       {/* Desktop Navigation */}
@@ -227,11 +233,11 @@ const Navigation = () => {
         {[
           { path: '/', label: 'Home' },
           { path: '/about', label: 'About' },
-          { path: '/ProductsPage', label: 'Products' },
-          { path: '/Agronomy', label: 'Agronomy' },
-          { path: '/Quality', label: 'Quality' },
-          { path: '/Process', label: 'Process' },
-          { path: '/Contact', label: 'Contact us' }
+          { path: '/products', label: 'Products' },
+          { path: '/agronomy', label: 'Agronomy' },
+          { path: '/quality', label: 'Quality' },
+          { path: '/process', label: 'Process' },
+          { path: '/contact', label: 'Contact us' }
         ].map((item, index) => (
           <motion.li 
             key={index} 
@@ -243,7 +249,7 @@ const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <Link 
+            <a 
               href={item.path} 
               className={`font-montserrat relative inline-block group transition-colors duration-300 px-3 py-2
                 ${pathname === item.path 
@@ -271,7 +277,7 @@ const Navigation = () => {
                 }}
               >
               </span>
-            </Link>
+            </a>
           </motion.li>
         ))}
       </motion.ul>
@@ -293,11 +299,10 @@ const Navigation = () => {
               transition={{ delay: 0.2 }}
             >
               <div className="relative w-[120px] h-[47px]">
-                <Image 
+                <img 
                   src="/images/Frozengate-01.svg"
                   alt="Frozengate Logo" 
-                  fill
-                  className="object-contain opacity-10"
+                  className="w-full h-full object-contain opacity-10"
                 />
               </div>
             </motion.div>
@@ -307,11 +312,11 @@ const Navigation = () => {
               {[
                 { path: '/', label: 'Home' },
                 { path: '/about', label: 'About' },
-                { path: '/ProductsPage', label: 'Products' },
-                { path: '/Agronomy', label: 'Agronomy' },
-                { path: '/Quality', label: 'Quality' },
-                { path: '/Process', label: 'Process' },
-                { path: '/Contact', label: 'Contact us' }
+                { path: '/products', label: 'Products' },
+                { path: '/agronomy', label: 'Agronomy' },
+                { path: '/quality', label: 'Quality' },
+                { path: '/process', label: 'Process' },
+                { path: '/contact', label: 'Contact us' }
               ].map((item, index) => (
                 <motion.li 
                   key={index} 
@@ -321,7 +326,7 @@ const Navigation = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <Link 
+                  <a 
                     href={item.path} 
                     className={`font-montserrat relative inline-block group transition-colors duration-300 px-4 py-3 text-xl
                       ${pathname === item.path 
@@ -346,7 +351,7 @@ const Navigation = () => {
                       `}
                     >
                     </span>
-                  </Link>
+                  </a>
                 </motion.li>
               ))}
             </motion.ul>
