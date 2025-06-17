@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -66,7 +66,7 @@ const Navigation = () => {
       transition: {
         delay: i * 0.1,
         duration: 0.5,
-        ease: "easeOut" // Fixed the cubic-bezier issue
+        ease: "easeOut"
       }
     })
   };
@@ -92,27 +92,13 @@ const Navigation = () => {
     }
   };
 
-  // Keyboard navigation
-  useEffect(() => {
-    if (typeof document === 'undefined') return;
-    
-    const handleKeyDown = (e) => {
-      if (e.key === 'Escape' && isOpen) {
-        setIsOpen(false);
-      }
-    };
-    
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isOpen]);
-
   // Only render dynamic content after mounting to prevent hydration mismatch
   if (!mounted) {
     return (
       <nav className="fixed top-0 left-0 w-full px-[5%] flex items-center justify-between z-[1000] bg-white/95 h-[10vh]">
         <div className="w-8 h-8"></div>
         <div className="h-[100px] flex items-center justify-center">
-          <a href="/" className="transition-all duration-300 transform hover:scale-105">
+          <Link to="/" className="transition-all duration-300 transform hover:scale-105">
             <div className="relative w-[160px] h-[62px] lg:w-[220px] lg:h-[85px]">
               <img 
                 src="/images/Frozengate-01.svg"
@@ -123,21 +109,21 @@ const Navigation = () => {
                 }}
               />
             </div>
-          </a>
+          </Link>
         </div>
         <ul className="hidden lg:flex flex-row gap-8 ml-auto">
           {[
             { path: '/', label: 'Home' },
             { path: '/about', label: 'About' },
-            { path: '/products', label: 'Products' },
-            { path: '/agronomy', label: 'Agronomy' },
-            { path: '/quality', label: 'Quality' },
-            { path: '/process', label: 'Process' },
-            { path: '/contact', label: 'Contact us' }
+            { path: '/ProductsPage', label: 'Products' },
+            { path: '/Agronomy', label: 'Agronomy' },
+            { path: '/Quality', label: 'Quality' },
+            { path: '/Process', label: 'Process' },
+            { path: '/Contact', label: 'Contact us' }
           ].map((item, index) => (
             <li key={index} className="text-left">
-              <a 
-                href={item.path} 
+              <Link 
+                to={item.path} 
                 className={`font-montserrat relative inline-block group transition-colors duration-300 px-3 py-2
                   ${pathname === item.path 
                     ? 'text-primary font-semibold' 
@@ -151,7 +137,7 @@ const Navigation = () => {
                   ${pathname === item.path ? 'scale-x-100' : 'scale-x-0'} 
                   transition-transform duration-500 ease-in-out`}>
                 </span>
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
@@ -193,7 +179,7 @@ const Navigation = () => {
         ${scrolled ? 'h-[70px]' : 'h-[110px]'}
         absolute left-1/2 transform -translate-x-1/2 lg:static lg:translate-x-0
       `}>
-        <a href="/" className="relative group">
+        <Link to="/" className="relative group">
           <motion.div
             className="absolute inset-0 bg-primary/5 rounded-full scale-0 group-hover:scale-100 transition-transform duration-300"
             initial={false}
@@ -220,7 +206,7 @@ const Navigation = () => {
               className="w-full h-full object-contain drop-shadow-md relative z-10"
           />
           </motion.div>
-        </a>
+        </Link>
       </div>
 
       {/* Desktop Navigation */}
@@ -233,11 +219,11 @@ const Navigation = () => {
         {[
           { path: '/', label: 'Home' },
           { path: '/about', label: 'About' },
-          { path: '/products', label: 'Products' },
-          { path: '/agronomy', label: 'Agronomy' },
-          { path: '/quality', label: 'Quality' },
-          { path: '/process', label: 'Process' },
-          { path: '/contact', label: 'Contact us' }
+          { path: '/ProductsPage', label: 'Products' },
+          { path: '/Agronomy', label: 'Agronomy' },
+          { path: '/Quality', label: 'Quality' },
+          { path: '/Process', label: 'Process' },
+          { path: '/Contact', label: 'Contact us' }
         ].map((item, index) => (
           <motion.li 
             key={index} 
@@ -249,8 +235,8 @@ const Navigation = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <a 
-              href={item.path} 
+            <Link 
+              to={item.path} 
               className={`font-montserrat relative inline-block group transition-colors duration-300 px-3 py-2
                 ${pathname === item.path 
                   ? 'text-primary font-semibold' 
@@ -277,7 +263,7 @@ const Navigation = () => {
                 }}
               >
               </span>
-            </a>
+            </Link>
           </motion.li>
         ))}
       </motion.ul>
@@ -312,11 +298,11 @@ const Navigation = () => {
               {[
                 { path: '/', label: 'Home' },
                 { path: '/about', label: 'About' },
-                { path: '/products', label: 'Products' },
-                { path: '/agronomy', label: 'Agronomy' },
-                { path: '/quality', label: 'Quality' },
-                { path: '/process', label: 'Process' },
-                { path: '/contact', label: 'Contact us' }
+                { path: '/ProductsPage', label: 'Products' },
+                { path: '/Agronomy', label: 'Agronomy' },
+                { path: '/Quality', label: 'Quality' },
+                { path: '/Process', label: 'Process' },
+                { path: '/Contact', label: 'Contact us' }
               ].map((item, index) => (
                 <motion.li 
                   key={index} 
@@ -326,8 +312,8 @@ const Navigation = () => {
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
-                  <a 
-                    href={item.path} 
+                  <Link 
+                    to={item.path} 
                     className={`font-montserrat relative inline-block group transition-colors duration-300 px-4 py-3 text-xl
                       ${pathname === item.path 
                         ? 'text-primary font-semibold' 
@@ -351,7 +337,7 @@ const Navigation = () => {
                       `}
                     >
                     </span>
-                  </a>
+                  </Link>
                 </motion.li>
               ))}
             </motion.ul>
