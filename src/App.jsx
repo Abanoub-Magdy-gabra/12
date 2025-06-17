@@ -1,6 +1,6 @@
 // App.js or index.js
 import React, { useState, useEffect, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import Navigation from './components/Nav';
 import Footer from './components/Footer';
@@ -99,7 +99,7 @@ export default function App() {
   };
 
   return (
-    <Router>
+    <>
       {isLoading ? (
         <Loader />
       ) : (
@@ -160,6 +160,6 @@ export default function App() {
           </ParallaxBackground>
         </>
       )}
-    </Router>
+    </>
   );
 }
