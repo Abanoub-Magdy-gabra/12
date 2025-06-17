@@ -1,12 +1,12 @@
 "use client";
 
 import React from 'react';
-import Navigation from '../app/components/Nav';
-import Footer from '../app/components/Footer';
-import AboutUs from '../app/components/about';
-import Cursor from '../app/components/Cursor';
-import ScrollProgressBar from '../app/components/ScrollProgressBar';
-import ParallaxBackground from '../app/components/ParallaxBackground';
+import Navigation from './Nav';
+import Footer from './Footer';
+import AboutUs from '../pages/About';
+import Cursor from './Cursor';
+import ScrollProgressBar from './ScrollProgressBar';
+import ParallaxBackground from './ParallaxBackground';
 
 export default function AboutPage() {
   return (
